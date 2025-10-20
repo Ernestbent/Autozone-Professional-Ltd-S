@@ -43,7 +43,57 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+# 
+doctype_js = {
+    "Sales Person" : [
+        "public/js/100_percent_contribution.js"
+    ],
+    "Payment Entry": [
+        "public/js/check_duplicate_mobile_money.js",
+        "public/js/check_reference_no.js",
+        "public/js/payment_entry_default_ref_no.js",
+    ],
+    "Sales Order Item":[
+        # "public/js/current_stock_quantity.js",
+        "public/js/default_discount_account.js"
+    ],
+    "Sales Order":[
+        "public/js/customer_search.js",
+        "public/js/default_discount_account.js",
+        "public/js/increase_the_sales_search.js",
+        "public/js/outstanding.js",
+        "public/js/sales_person_name_on_list.js",
+        "public/js/show_sales_person.js",
+        "public/js/status_display.js",
+        "public/js/total_discount.js",
+        "public/js/workflow_colors.js",
+        "public/js/100_percent_contribution.js",
+        "public/js/default_qty_for _P25.js",
+        "public/js/default_warehouse.js",
+        "public/js/discount_percentage.js",
+        "public/js/current_stock_quantity.js",
+        "public/js/show_action_button.js",
+        "public/js/cancelled_show.js"
+    ],
+    "Sales Invoice Item":[
+        "public/js/default_discount_account.js"
+    ],
+    "Item Price":[
+        "public/js/default_discount_account.js",
+        "public/js/display_quantity_available.js"
+    ],
+    "Sales Invoice":[
+        "public/js/hide_invoice_cancel_for_store.js",
+        "public/js/default_discount_account.js",
+    ],
+    "Journal Entry":[
+        "public/js/journal_entry_ref_no.js"
+    ],
+    "Pick List":[
+        'public/js/pick_list.js'
+    ]
+
+    }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -241,4 +291,11 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+
+fixtures = [
+    "Workflow",
+    "Workflow State",
+    "Workflow Action Master"
+]
+
 
