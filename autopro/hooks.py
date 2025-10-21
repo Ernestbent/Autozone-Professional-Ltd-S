@@ -91,6 +91,9 @@ doctype_js = {
     ],
     "Pick List":[
         'public/js/pick_list.js'
+    ],
+    "Packing Slip":[
+        'public/js/packing_list.js'
     ]
 
     }
@@ -187,13 +190,11 @@ doctype_js = {
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Packing Slip":{
+        "before_insert": "autopro.custom_scripts.packing_slip_from_dn.populate_rate_amount"
+    }
+}
 
 # Scheduled Tasks
 # ---------------
@@ -225,7 +226,7 @@ doctype_js = {
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "autopro.event.get_events"
+# 	"erpnext.stock.doctype.packing_slip.packing_slip.make_packing_slip_from_delivery_note":"autopro.custom_scripts.packing_list.make_packing_slip_from_delivery_note"
 # }
 #
 # each overriding function accepts a `data` argument;
