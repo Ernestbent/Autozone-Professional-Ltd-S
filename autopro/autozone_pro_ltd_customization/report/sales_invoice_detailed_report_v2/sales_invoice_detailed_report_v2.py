@@ -62,10 +62,37 @@ def execute(filters=None):
             subquery_total_before_discount.as_("grand_total_before_discount"),
         )
         .where(SI.docstatus == 1)
-        .groupby(SII.name, SI.name, SO.name, DN.name, C.name)
-        .orderby(SI.posting_date, order=frappe.qb.desc)
     )
 
+    # Apply filters dynamically
+    if filters.get("from_date"):
+        query = query.where(SI.posting_date >= filters.get("from_date"))
+    if filters.get("to_date"):
+        query = query.where(SI.posting_date <= filters.get("to_date"))
+    if filters.get("customer"):
+        query = query.where(SI.customer == filters.get("customer"))
+    if filters.get("item_code"):
+        query = query.where(SII.item_code == filters.get("item_code"))
+    if filters.get("sales_order"):
+        query = query.where(SO.name == filters.get("sales_order"))
+    if filters.get("delivery_note"):
+        query = query.where(DN.name == filters.get("delivery_note"))
+    if filters.get("sales_invoice"):
+        query = query.where(SI.name == filters.get("sales_invoice"))
+    if filters.get("district"):
+        query = query.where(fn.Lower(fn.Coalesce(C.district, "")) == filters.get("district").lower())
+    if filters.get("region"):
+        query = query.where(fn.Lower(fn.Coalesce(C.region, "")) == filters.get("region").lower())
+    if filters.get("route"):
+        query = query.where(fn.Lower(fn.Coalesce(C.route, "")) == filters.get("route").lower())
+    if filters.get("sales_person"):
+        query = query.where(ST.sales_person == filters.get("sales_person"))
+
+    # Group and order the query
+    query = query.groupby(SII.name, SI.name, SO.name, DN.name, C.name)
+    query = query.orderby(SI.posting_date, order=frappe.qb.desc)
+
+    # Execute the query
     data = query.run(as_dict=True)
 
     # Define columns
@@ -94,4 +121,3 @@ def execute(filters=None):
     ]
 
     return columns, data
-

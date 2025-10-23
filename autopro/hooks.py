@@ -73,7 +73,9 @@ doctype_js = {
         "public/js/discount_percentage.js",
         "public/js/current_stock_quantity.js",
         "public/js/show_action_button.js",
-        "public/js/cancelled_show.js"
+        "public/js/cancelled_show.js",
+        "public/js/update_delivery_note.js"
+
     ],
     "Sales Invoice Item":[
         "public/js/default_discount_account.js"
@@ -94,8 +96,7 @@ doctype_js = {
     ],
     "Packing Slip":[
         'public/js/packing_list.js'
-    ]
-
+    ],
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}

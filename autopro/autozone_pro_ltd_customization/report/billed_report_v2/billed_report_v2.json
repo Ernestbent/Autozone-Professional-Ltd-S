@@ -1,0 +1,111 @@
+{
+ "add_total_row": 1,
+ "add_translate_data": 0,
+ "columns": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Item Code",
+   "options": "Item",
+   "width": 0
+  },
+  {
+   "fieldname": "brand",
+   "fieldtype": "Data",
+   "label": "Brand",
+   "width": 0
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "width": 0
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description",
+   "width": 0
+  },
+  {
+   "fieldname": "quantity_billed",
+   "fieldtype": "Currency",
+   "label": "Quantity Billed",
+   "width": 0
+  },
+  {
+   "fieldname": "rate_amount",
+   "fieldtype": "Currency",
+   "label": "Rate Amount",
+   "width": 0
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total amount",
+   "width": 0
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse",
+   "width": 0
+  },
+  {
+   "fieldname": "invoice_total",
+   "fieldtype": "Currency",
+   "label": "Invoice Total",
+   "width": 0
+  },
+  {
+   "fieldname": "customer_id",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "width": 0
+  },
+  {
+   "fieldname": "sales_person",
+   "fieldtype": "Data",
+   "label": "Sales Person",
+   "width": 0
+  }
+ ],
+ "creation": "2025-10-22 12:20:19.909885",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "javascript": "frappe.query_reports[\"Billed Report\"] = {\n    \"filters\": [\n        {\"fieldname\": \"from_date\", \"label\": __(\"From Date\"), \"fieldtype\": \"Date\", \"default\": frappe.datetime.add_months(frappe.datetime.get_today(), -1), \"reqd\": 1},\n        {\"fieldname\": \"to_date\", \"label\": __(\"To Date\"), \"fieldtype\": \"Date\", \"default\": frappe.datetime.get_today(), \"reqd\": 1},\n        {\"fieldname\": \"warehouse\", \"label\": __(\"Warehouse\"), \"fieldtype\": \"Link\", \"options\": \"Warehouse\", \"default\": \"Main Loc - APL\"},\n        {\"fieldname\": \"item_code\", \"label\": __(\"Item\"), \"fieldtype\": \"Link\", \"options\": \"Item\"},\n        {\"fieldname\": \"brand\", \"label\": __(\"Brand\"), \"fieldtype\": \"Link\", \"options\": \"Item Brand\"},\n        {\"fieldname\": \"customer\", \"label\": __(\"Customer\"), \"fieldtype\": \"Link\", \"options\": \"Customer\"},\n        {\"fieldname\": \"sales_person\", \"label\": __(\"Sales Person\"), \"fieldtype\": \"Link\", \"options\": \"Sales Person\"},\n        {\"fieldname\": \"row_limit\", \"label\": __(\"Rows\"), \"fieldtype\": \"Select\", \"options\": \"\\n20\\n100\\n500\\nAll\", \"default\": \"100\"}\n    ],\n    \"columns\": [\n        {\"fieldname\": \"invoice_date\", \"label\": __(\"Invoice Date\"), \"fieldtype\": \"Date\", \"width\": 100},\n        {\"fieldname\": \"invoice_number\", \"label\": __(\"Invoice Number\"), \"fieldtype\": \"Link\", \"options\": \"Sales Invoice\", \"width\": 120},\n        {\"fieldname\": \"customer_id\", \"label\": __(\"Customer\"), \"fieldtype\": \"Link\", \"options\": \"Customer\", \"width\": 120},\n        {\"fieldname\": \"item_code\", \"label\": __(\"Item Code\"), \"fieldtype\": \"Link\", \"options\": \"Item\", \"width\": 120},\n        {\"fieldname\": \"description\", \"label\": __(\"Description\"), \"fieldtype\": \"Data\", \"width\": 200},\n        {\"fieldname\": \"brand\", \"label\": __(\"Brand\"), \"fieldtype\": \"Data\", \"width\": 120},\n        {\"fieldname\": \"model\", \"label\": __(\"Model\"), \"fieldtype\": \"Data\", \"width\": 120},\n        {\"fieldname\": \"quantity_billed\", \"label\": __(\"Quantity Billed\"), \"fieldtype\": \"Float\", \"width\": 120},\n        {\"fieldname\": \"rate_amount\", \"label\": __(\"Rate Amount\"), \"fieldtype\": \"Currency\", \"width\": 120},\n        {\"fieldname\": \"total_amount\", \"label\": __(\"Total Amount\"), \"fieldtype\": \"Currency\", \"width\": 140},\n        {\"fieldname\": \"warehouse\", \"label\": __(\"Warehouse\"), \"fieldtype\": \"Link\", \"options\": \"Warehouse\", \"width\": 120},\n        {\"fieldname\": \"invoice_total\", \"label\": __(\"Invoice Total\"), \"fieldtype\": \"Currency\", \"width\": 140},\n        {\"fieldname\": \"sales_person\", \"label\": __(\"Sales Person\"), \"fieldtype\": \"Data\", \"width\": 150}\n    ]\n};",
+ "letter_head": "Autzone Suppliers of Genuine Auto Parts",
+ "letterhead": null,
+ "modified": "2025-10-22 12:21:06.458281",
+ "modified_by": "Administrator",
+ "module": "Autozone Pro Ltd Customization",
+ "name": "Billed Report v2",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "from_date = filters.get(\"from_date\")\nto_date = filters.get(\"to_date\")\nitem_code = filters.get(\"item_code\")\nbrand = filters.get(\"brand\")\nrow_limit = filters.get(\"row_limit\") or 100\n\n# Handle \"All\" option\nlimit_clause = \"\" if row_limit == \"All\" else f\"LIMIT {row_limit}\"\n\nconditions = [\"i.disabled = 0\"]\nparams = {}\n\nif item_code:\n    conditions.append(\"i.item_code = %(item_code)s\")\n    params[\"item_code\"] = item_code\n\nif brand:\n    conditions.append(\"i.brand = %(brand)s\")\n    params[\"brand\"] = brand\n\nwhere_clause = \" AND \".join(conditions)\n\nquery = f\"\"\"\nSELECT\n    i.item_code AS Code,\n    i.brand AS Brand,\n    i.description AS Description,\n    i.custom_model AS Model,\n    COALESCE(latest_buying.buying_rate, 0) AS Buying_Rate,\n    COALESCE(latest_selling.selling_rate, 0) AS Selling_Rate,\n    COALESCE(stock.actual_qty, 0) AS available_stock,\n    COALESCE(gross.qty_sold, 0) AS sold_quantity,\n    COALESCE(returns.qty_returned, 0) AS returned_quantities,\n    COALESCE(gross.total_gross, 0) AS gross_amount,\n    COALESCE(returns.total_returns, 0) AS returns_amount,\n    COALESCE(gross.total_gross, 0) + COALESCE(returns.total_returns, 0) AS net_amount,\n    ROUND(\n        (COALESCE(latest_selling.selling_rate, 0) - COALESCE(latest_buying.buying_rate, 0)) * COALESCE(gross.qty_sold, 0), \n        2\n    ) AS profit_loss\nFROM `tabItem` i\nLEFT JOIN (\n    SELECT item_code, MAX(valuation_rate) AS buying_rate\n    FROM `tabStock Ledger Entry`\n    GROUP BY item_code\n) latest_buying ON latest_buying.item_code = i.item_code\nLEFT JOIN (\n    SELECT sii.item_code, MAX(sii.rate) AS selling_rate\n    FROM `tabSales Invoice Item` sii\n    INNER JOIN `tabSales Invoice` si ON sii.parent = si.name\n    WHERE si.docstatus = 1 AND si.is_return = 0\n    GROUP BY sii.item_code\n) latest_selling ON latest_selling.item_code = i.item_code\nLEFT JOIN (\n    SELECT item_code, SUM(actual_qty) AS actual_qty\n    FROM `tabBin`\n    GROUP BY item_code\n) stock ON stock.item_code = i.item_code\nLEFT JOIN (\n    SELECT sii.item_code, SUM(sii.qty) AS qty_sold, SUM(sii.amount) AS total_gross\n    FROM `tabSales Invoice Item` sii\n    INNER JOIN `tabSales Invoice` si ON sii.parent = si.name\n    WHERE si.docstatus = 1 AND si.is_return = 0\n    GROUP BY sii.item_code\n) gross ON gross.item_code = i.item_code\nLEFT JOIN (\n    SELECT sii.item_code, SUM(ABS(sii.qty)) AS qty_returned, SUM(sii.amount) AS total_returns\n    FROM `tabSales Invoice Item` sii\n    INNER JOIN `tabSales Invoice` si ON sii.parent = si.name\n    WHERE si.docstatus = 1 AND si.is_return = 1\n    GROUP BY sii.item_code\n) returns ON returns.item_code = i.item_code\nWHERE {where_clause}\nORDER BY net_amount DESC\n{limit_clause}\n\"\"\"\n\nresult = frappe.db.sql(query, params, as_dict=True)\n",
+ "ref_doctype": "Sales Invoice",
+ "report_name": "Billed Report v2",
+ "report_script": "# --------------------------\n# Billed Report - ERPNext 15 (Simplified)\n# --------------------------\n\nfrom_date = filters.get(\"from_date\") or frappe.utils.add_months(frappe.utils.today(), -1)\nto_date = filters.get(\"to_date\") or frappe.utils.today()\nitem_code = filters.get(\"item_code\")\nbrand = filters.get(\"brand\")\nwarehouse = filters.get(\"warehouse\")\nsales_person = filters.get(\"sales_person\")\n\n# Set a fixed row limit of 1000\nrow_limit = 1000\n\n# Build conditions\nconditions = [\"si.docstatus = 1\"]\nparams = {\"from_date\": from_date, \"to_date\": to_date, \"row_limit\": row_limit}\n\nconditions.append(\"si.posting_date BETWEEN %(from_date)s AND %(to_date)s\")\n\nif item_code:\n    conditions.append(\"sii.item_code = %(item_code)s\")\n    params[\"item_code\"] = item_code\n\nif brand:\n    conditions.append(\"i.brand = %(brand)s\")\n    params[\"brand\"] = brand\n\nif warehouse:\n    conditions.append(\"sii.warehouse = %(warehouse)s\")\n    params[\"warehouse\"] = warehouse\n\nif sales_person:\n    conditions.append(\"st.sales_person = %(sales_person)s\")\n    params[\"sales_person\"] = sales_person\n\nwhere_clause = \" AND \".join(conditions)\n\n# Query with Sales Person\nquery = f\"\"\"\nSELECT \n    si.posting_date AS invoice_date,\n    si.name AS invoice_number,\n    si.customer AS customer_id,\n    sii.item_code AS item_code,\n    sii.description AS description,\n    i.brand AS brand,\n    COALESCE(i.custom_model, '') AS model,\n    sii.qty AS quantity_billed,\n    sii.rate AS rate_amount,\n    (sii.qty * sii.rate) AS total_amount,\n    sii.warehouse AS warehouse,\n    si.grand_total AS invoice_total,\n    GROUP_CONCAT(DISTINCT st.sales_person) AS sales_person\nFROM `tabSales Invoice` si\nJOIN `tabSales Invoice Item` sii ON si.name = sii.parent\nLEFT JOIN `tabItem` i ON sii.item_code = i.name\nLEFT JOIN `tabSales Team` st ON si.name = st.parent\nWHERE {where_clause}\nGROUP BY si.name, sii.name\nORDER BY si.posting_date DESC, si.name\nLIMIT %(row_limit)s\n\"\"\"\n\n# Execute\nresult = frappe.db.sql(query, params, as_dict=True)\n\n# Columns with Sales Person\ncolumns = [\n    {\"fieldname\": \"invoice_date\", \"label\": \"Invoice Date\", \"fieldtype\": \"Date\", \"width\": 100},\n    {\"fieldname\": \"invoice_number\", \"label\": \"Invoice Number\", \"fieldtype\": \"Link\", \"options\": \"Sales Invoice\", \"width\": 120},\n    {\"fieldname\": \"customer_id\", \"label\": \"Customer\", \"fieldtype\": \"Link\", \"options\": \"Customer\", \"width\": 120},\n    {\"fieldname\": \"item_code\", \"label\": \"Item Code\", \"fieldtype\": \"Link\", \"options\": \"Item\", \"width\": 120},\n    {\"fieldname\": \"description\", \"label\": \"Description\", \"fieldtype\": \"Data\", \"width\": 200},\n    {\"fieldname\": \"brand\", \"label\": \"Brand\", \"fieldtype\": \"Data\", \"width\": 120},\n    {\"fieldname\": \"model\", \"label\": \"Model\", \"fieldtype\": \"Data\", \"width\": 120},\n    {\"fieldname\": \"quantity_billed\", \"label\": \"Quantity Billed\", \"fieldtype\": \"Float\", \"width\": 120},\n    {\"fieldname\": \"rate_amount\", \"label\": \"Rate Amount\", \"fieldtype\": \"Currency\", \"width\": 120},\n    {\"fieldname\": \"total_amount\", \"label\": \"Total Amount\", \"fieldtype\": \"Currency\", \"width\": 140},\n    {\"fieldname\": \"warehouse\", \"label\": \"Warehouse\", \"fieldtype\": \"Link\", \"options\": \"Warehouse\", \"width\": 120},\n    {\"fieldname\": \"invoice_total\", \"label\": \"Invoice Total\", \"fieldtype\": \"Currency\", \"width\": 140},\n    {\"fieldname\": \"sales_person\", \"label\": \"Sales Person\", \"fieldtype\": \"Data\", \"width\": 150}\n]\n",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Sales Invoice Canceller"
+  },
+  {
+   "role": "Sales User"
+  }
+ ],
+ "timeout": 0
+}
