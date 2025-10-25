@@ -1,8 +1,24 @@
+# Copyright (c) 2025, Autozone Pro Ltd and contributors
+# For license information, please see license.txt
+
 import frappe
+from frappe.utils import today, add_months
 
 def execute(filters=None):
+    if not filters:
+        filters = {}
+
+    # Default values for filters
+    from_date = filters.get("from_date", add_months(today(), -1))
+    to_date = filters.get("to_date", today())
+    customer = filters.get("customer")
+    amount_status = filters.get("amount_status")
+    company = filters.get("company")
+    row_limit = filters.get("row_limit", "100")
+
     columns = get_columns()
-    data = get_data(filters)
+    data = get_data(from_date, to_date, customer, amount_status, company, row_limit)
+
     return columns, data
 
 
@@ -19,9 +35,25 @@ def get_columns():
     ]
 
 
-def get_data(filters):
-    return frappe.db.sql(
-        """
+def get_data(from_date, to_date, customer=None, amount_status=None, company=None, row_limit="100"):
+    conditions = []
+    params = {"from_date": from_date, "to_date": to_date}
+
+    # Apply customer filter to each section individually
+    pe_customer_condition = "pe.party = %(customer)s" if customer else "1=1"
+    jea_customer_condition = "jea.party = %(customer)s" if customer else "1=1"
+    gl_customer_condition = "gl.party = %(customer)s" if customer else "1=1"
+    si_customer_condition = "si.customer = %(customer)s" if customer else "1=1"
+
+    # Company filter
+    if company:
+        conditions.append("pe.company = %(company)s")
+        conditions.append("je.company = %(company)s")
+        conditions.append("gl.company = %(company)s")
+        conditions.append("si.company = %(company)s")
+        params["company"] = company
+
+    query = f"""
         SELECT 
             'Payment Entry' as document_type,
             CONCAT('<a href="/app/payment-entry/', pe.name, '" target="_blank">', pe.name, '</a>') as document_name,
@@ -59,7 +91,15 @@ def get_data(filters):
         WHERE pe.docstatus = 1 
             AND pe.unallocated_amount > 0
             AND pe.party_type = 'Customer'
+            AND pe.posting_date BETWEEN %(from_date)s AND %(to_date)s
+            AND {pe_customer_condition}
+    """
 
+    # Add company condition to Payment Entry
+    if company:
+        query += " AND pe.company = %(company)s"
+
+    query += f"""
         UNION ALL
 
         SELECT
@@ -102,7 +142,15 @@ def get_data(filters):
             AND jea.party_type = 'Customer'
             AND jea.party IS NOT NULL
             AND jea.credit > 0
+            AND je.posting_date BETWEEN %(from_date)s AND %(to_date)s
+            AND {jea_customer_condition}
+    """
 
+    # Add company condition to Journal Entry
+    if company:
+        query += " AND je.company = %(company)s"
+
+    query += f"""
         UNION ALL
 
         SELECT
@@ -149,7 +197,15 @@ def get_data(filters):
                 WHERE jea.name = gl.voucher_detail_no
                 AND jea.parent = gl.voucher_no
             )
+            AND gl.posting_date BETWEEN %(from_date)s AND %(to_date)s
+            AND {gl_customer_condition}
+    """
 
+    # Add company condition to GL Entry
+    if company:
+        query += " AND gl.company = %(company)s"
+
+    query += f"""
         UNION ALL
 
         SELECT
@@ -188,9 +244,33 @@ def get_data(filters):
         WHERE si.docstatus = 1 
             AND si.is_return = 1
             AND si.outstanding_amount < 0
+            AND si.posting_date BETWEEN %(from_date)s AND %(to_date)s
+            AND {si_customer_condition}
+    """
 
+    # Add company condition to Sales Invoice
+    if company:
+        query += " AND si.company = %(company)s"
+
+    # Order by and limit
+    query += """
         ORDER BY posting_date DESC
-        """,
-        filters,
-        as_dict=True,
-    )
+    """
+
+    # Apply row limit
+    if row_limit != "All":
+        query += " LIMIT %(row_limit)s"
+        params["row_limit"] = int(row_limit)
+    else:
+        query += " LIMIT 10000"  # Safety limit to prevent performance issues
+
+    if customer:
+        params["customer"] = customer
+
+    data = frappe.db.sql(query, params, as_dict=True)
+
+    # Apply amount_status filter post-query if specified
+    if amount_status and amount_status != "All":
+        data = [row for row in data if row["amount_status"] == amount_status]
+
+    return data
