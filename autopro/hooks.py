@@ -94,6 +94,9 @@ doctype_js = {
     "Pick List":[
         'public/js/pick_list.js'
     ],
+    "GL Entry":[
+        'public/js/general_leger_checkbox.js'
+    ],
     "Packing Slip":[
         'public/js/packing_list.js'
     ],
@@ -192,9 +195,9 @@ doctype_js = {
 # Hook on document methods and events
 
 doc_events = {
-	"Packing Slip":{
-        "before_insert": "autopro.custom_scripts.packing_slip_from_dn.populate_rate_amount"
-    }
+	# "Packing Slip":{
+    #     "before_insert": "autopro.custom_scripts.packing_slip_from_dn.populate_rate_amount"
+    # }
 }
 
 # Scheduled Tasks
