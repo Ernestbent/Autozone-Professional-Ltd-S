@@ -4,7 +4,7 @@ frappe.ui.form.on("Sales Order", {
         console.log("Workflow action triggered:", frm.selected_workflow_action, "Current state:", frm.doc.workflow_state);
 
         // Check if the action is "Deliver" or the target state is "Delivered"
-        if (frm.selected_workflow_action === "Deliver" || frm.doc.workflow_state === "Delivered") {
+        if (frm.selected_workflow_action === "Mark As Delivered" || frm.doc.workflow_state === "Delivered") {
             frappe.validated = false;
 
             let d = new frappe.ui.Dialog({

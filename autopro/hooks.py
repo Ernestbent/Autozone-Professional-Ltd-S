@@ -74,7 +74,7 @@ doctype_js = {
         "public/js/current_stock_quantity.js",
         "public/js/show_action_button.js",
         "public/js/cancelled_show.js",
-        "public/js/update_delivery_note.js"
+        "public/js/update_delivery_note.js",
 
     ],
     "Sales Invoice Item":[
@@ -99,6 +99,9 @@ doctype_js = {
     ],
     "Packing Slip":[
         'public/js/packing_list.js'
+    ],
+    "Delivery Note":[
+        'public/js/get_gate_and_office_pass.js'
     ],
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
