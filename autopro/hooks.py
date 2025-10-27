@@ -98,7 +98,7 @@ doctype_js = {
         'public/js/general_leger_checkbox.js'
     ],
     "Packing Slip":[
-        'public/js/packing_list.js'
+        'public/js/packing_slip.js'
     ],
     "Delivery Note":[
         'public/js/get_gate_and_office_pass.js'
@@ -198,6 +198,9 @@ doctype_js = {
 # Hook on document methods and events
 
 doc_events = {
+    # "Packing Slip": {
+    #     "validate": "autopro.custom_scripts.packing_slip.validate_packing_slip"
+    # },
 	# "Packing Slip":{
     #     "before_insert": "autopro.custom_scripts.packing_slip_from_dn.populate_rate_amount"
     # }

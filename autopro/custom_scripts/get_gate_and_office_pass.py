@@ -1,24 +1,24 @@
 import frappe
+from frappe import _
 
 @frappe.whitelist()
+def generate_gate_pass():
+    """
+    Generate office and store gate pass numbers without requiring a saved Delivery Note
+    """
+    try:
+        # Define the naming series
+        office_series = "OGP-.YYYY.-"  # Office Gate Pass
+        store_series = "SGP-.YYYY.-"   # Store Gate Pass
 
-def generate_gate_passes(delivery_note_name, office_gate_pass=None, store_gate_pass)
-    dn = frappe.get_doc("Delivery Note", delivery_note_name)
+        # Generate autonames
+        office_gate_pass = frappe.model.naming.make_autoname(office_series)
+        store_gate_pass = frappe.model.naming.make_autoname(store_series)
 
-    ##Generate if not provided
-    if not office_gate_pass:
-        office_gate_pass = frappe.model.naming.make_autoname("OGP-.YYYY,MM.-.####")
-
-    if not store_gate_pass:
-        store_gate_pass = frappe.model.naming.make_autoname("SGP-.YYYY,MM.-.####")
-
-    dn.office_gate_pass = office_gate_pass
-    dn.store_gate_pass = store_gate_pass
-    dn.workflow_state = "In Transit"
-    dn.save(ignore_permissions=True)
-    frappe.db.commit()
-
-    return {
-        "office_gate_pass": office_gate_pass,
-        "store_gate_pass": store_gate_pass
-    }
+        return {
+            "custom_office_gate_pass": office_gate_pass,
+            "custom_store_gate_pass": store_gate_pass
+        }
+    except Exception as e:
+        frappe.log_error(f"Error generating gate passes: {str(e)}")
+        frappe.throw(_("Failed to generate gate passes: {0}").format(str(e)))
