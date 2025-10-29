@@ -75,6 +75,8 @@ doctype_js = {
         "public/js/show_action_button.js",
         "public/js/cancelled_show.js",
         "public/js/update_delivery_note.js",
+        "public/js/create_delivery_note.js",
+        "public/js/create_pick_list.js"
 
     ],
     "Sales Invoice Item":[
@@ -92,7 +94,7 @@ doctype_js = {
         "public/js/journal_entry_ref_no.js"
     ],
     "Pick List":[
-        'public/js/pick_list.js'
+        'public/js/create_pick_list.js'
     ],
     "GL Entry":[
         'public/js/general_leger_checkbox.js'
@@ -101,7 +103,8 @@ doctype_js = {
         'public/js/packing_slip.js'
     ],
     "Delivery Note":[
-        'public/js/get_gate_and_office_pass.js'
+        'public/js/get_gate_and_office_pass.js',
+        'public/js/create_delivery_note.js'
     ],
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
@@ -196,6 +199,10 @@ doctype_js = {
 # Document Events
 # ---------------
 # Hook on document methods and events
+workflow_methods = {
+    "create_pick_list_from_sales_order": "autopro.autopro.doctype.sales_order_custom.sales_order_custom.create_pick_list_on_workflow"
+}
+
 
 doc_events = {
     # "Packing Slip": {
