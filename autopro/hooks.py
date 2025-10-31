@@ -223,6 +223,9 @@ doc_events = {
 
     "Sales Order": {
         "before_workflow_action": "autopro.custom_scripts.submit_delivery_note_workflow.restrict_next_state_if_dn_not_submitted"
+    },
+    "Sales Order":{
+        "before_workflow_action": "autopro.custom_scripts.halt_sales_order.check_courier_details"
     }
 }
 

@@ -1,73 +1,86 @@
-frappe.ui.form.on("Sales Order", {
-    before_workflow_action: function (frm) {
-        if (frm.selected_workflow_action === "Start Transit") {
-            frappe.validated = false; // Block the initial transition
+frappe.ui.form.on('Sales Order', {
+    before_workflow_action: function(frm, action) {
+        // Only block when moving TO "Approved"
+        if (frm.doc.workflow_state !== "Dispatched") return;
 
-            const d = new frappe.ui.Dialog({
-                title: "Enter Courier Details",
-                fields: [
-                    { label: "First Name", fieldname: "first_name", fieldtype: "Data", reqd: 1 },
-                    { label: "Last Name", fieldname: "last_name", fieldtype: "Data", reqd: 1 },
-                    { label: "Mobile No.", fieldname: "mobile_no", fieldtype: "Data", reqd: 1 },
-                    { label: "Vehicle Number", fieldname: "vehicle_number", fieldtype: "Data" },
-                    { label: "Number Of Boxes", fieldname: "number_of_boxes", fieldtype: "Int", reqd: 1 },
-                    { label: "Weight (Kg)", fieldname: "weight_kg", fieldtype: "Int", reqd: 1 },
-                    { label: "Dispatch Date", fieldname: "dispatch_date", fieldtype: "Date", reqd: 1 }
-                ],
-                primary_action_label: "Save & Continue",
-                primary_action(values) {
-                    d.get_primary_btn().attr("disabled", true);
+        return new Promise((resolve, reject) => {
+            // Check if Courier Details already exist
+            frappe.call({
+                method: "frappe.client.get_list",
+                args: {
+                    doctype: "Courier Details",
+                    filters: { custom_sales_order: frm.doc.name },
+                    fields: ["name"],
+                    limit_page_length: 1
+                },
+                callback: function(r) {
+                    frappe.dom.unfreeze();
 
-                    values.full_name = `${values.first_name} ${values.last_name}`;
+                    if (!r.message || r.message.length === 0) {
+                        // Show dialog to create Courier Details
+                        let d = new frappe.ui.Dialog({
+                            title: __("Enter Courier Details ( --> Start Transit )"),
+                            fields: [
+                                { label: "First Name", fieldname: "first_name", fieldtype: "Data", reqd: 1 },
+                                { label: "Last Name", fieldname: "last_name", fieldtype: "Data", reqd: 1 },
+                                // { label: "Full Name", fieldname: "full_name", fieldtype: "Data", read_only: 1 },
+                                { label: "Mobile No.", fieldname: "mobile_no", fieldtype: "Data", reqd: 1 },
+                                { label: "Number Of Boxes", fieldname: "number_of_boxes", fieldtype: "Int", reqd: 1 },
+                                // { label: "Weight (Kg)", fieldname: "weight_kg", fieldtype: "Int", reqd: 1 },
+                                // { label: "Transport (UGX)", fieldname: "transport_ugx", fieldtype: "Currency" },
+                                { label: "Dispatch Date", fieldname: "dispatch_date", fieldtype: "Date", reqd: 1 },
+                                // { label: "Delivery Note", fieldname: "delivery_note", fieldtype: "Link", options: "Delivery Note" }
+                            ],
+                            primary_action_label: "Create",
+                            primary_action: function(values) {
+                                // Auto-fill Full Name
+                                values.full_name = values.first_name + " " + values.last_name;
 
-                    // Save courier details first
-                    frappe.call({
-                        method: "frappe.client.insert",
-                        args: {
-                            doc: {
-                                doctype: "Courier Details",
-                                custom_sales_order: frm.doc.name,
-                                first_name: values.first_name,
-                                last_name: values.last_name,
-                                full_name: values.full_name,
-                                mobile_no: values.mobile_no,
-                                vehicle_number: values.vehicle_number,
-                                number_of_boxes: values.number_of_boxes,
-                                weight_kg: values.weight_kg,
-                                dispatch_date: values.dispatch_date
-                            }
-                        },
-                        callback: function (r) {
-                            if (!r.exc) {
-                                frappe.show_alert({ message: "Courier Details Saved", indicator: "green" });
-                                d.hide();
+                                // Add linked Sales Order
+                                values.custom_sales_order = frm.doc.name;
 
-                                // Set validated to true and proceed with workflow
-                                frappe.validated = true;
-                                
-                                // Use a server-side method to apply workflow
                                 frappe.call({
-                                    method: "frappe.client.set_value",
-                                    args: {
-                                        doctype: "Sales Order",
-                                        name: frm.doc.name,
-                                        fieldname: "workflow_state",
-                                        value: "In Transit" // Replace with your actual next state name
+                                    method: "frappe.client.insert",
+                                    args: { doc: Object.assign({ doctype: "Courier Details" }, values) },
+                                    callback: function(res) {
+                                        frappe.msgprint({
+                                            title: __("Created"),
+                                            message: __("Courier Details record created successfully."),
+                                            indicator: "green"
+                                        });
+                                        d.hide();
+                                        resolve(); // Allow workflow to proceed
                                     },
-                                    callback: function() {
-                                        frm.reload_doc();
+                                    error: function() {
+                                        frappe.msgprint({
+                                            title: __("Error"),
+                                            message: __("Failed to create Courier Details. Please try again."),
+                                            indicator: "red"
+                                        });
+                                        reject(); // Block workflow
                                     }
                                 });
-                            } else {
-                                frappe.msgprint("Error saving courier details. Workflow not continued.");
-                                d.get_primary_btn().attr("disabled", false);
                             }
-                        }
+                        });
+                        d.show();
+
+                        // Block workflow until dialog handled
+                        reject();
+                    } else {
+                        // Already exists, proceed
+                        resolve();
+                    }
+                },
+                error: function() {
+                    frappe.dom.unfreeze();
+                    frappe.msgprint({
+                        title: __("Error"),
+                        message: __("Failed to verify Courier Details. Please try again."),
+                        indicator: "red"
                     });
+                    reject();
                 }
             });
-
-            d.show();
-        }
+        });
     }
 });
