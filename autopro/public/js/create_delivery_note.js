@@ -1,8 +1,10 @@
 frappe.ui.form.on("Sales Order", {
     before_workflow_action: function(frm) {
         const action = frm.selected_workflow_action;
+
         if(action === "Create Delivery Note") {
-            frappe.validated = false; 
+            frappe.validated = false;
+
             frappe.call({
                 method: "autopro.custom_scripts.create_delivery_note.create_delivery_note_from_sales_order", 
                 args: { source_name: frm.doc.name },
