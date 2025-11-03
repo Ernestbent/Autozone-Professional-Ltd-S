@@ -74,7 +74,12 @@ doctype_js = {
         "public/js/current_stock_quantity.js",
         "public/js/show_action_button.js",
         "public/js/cancelled_show.js",
-        "public/js/update_delivery_note.js"
+        "public/js/update_delivery_note.js",
+        "public/js/track_courier_details.js",
+        "public/js/create_delivery_note.js",
+        "public/js/create_pick_list.js",
+        "public/js/create_packing_slip.js",
+        "public/js/hide_sales_order_buttons.js",
 
     ],
     "Sales Invoice Item":[
@@ -92,13 +97,19 @@ doctype_js = {
         "public/js/journal_entry_ref_no.js"
     ],
     "Pick List":[
-        'public/js/pick_list.js'
+       "public/js/create_pick_list.js",
+    #    "public/js/create_delivery_note_from_pick_list.js"
+        
     ],
     "GL Entry":[
         'public/js/general_leger_checkbox.js'
     ],
     "Packing Slip":[
-        'public/js/packing_list.js'
+        'public/js/packing_slip.js'
+    ],
+    "Delivery Note":[
+        'public/js/get_gate_and_office_pass.js',
+        'public/js/create_delivery_note.js'
     ],
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
@@ -193,11 +204,29 @@ doctype_js = {
 # Document Events
 # ---------------
 # Hook on document methods and events
+workflow_methods = {
+    "create_pick_list_from_sales_order": "autopro.autopro.doctype.sales_order_custom.sales_order_custom.create_pick_list_on_workflow"
+}
+
 
 doc_events = {
+    # "Packing Slip": {
+    #     "validate": "autopro.custom_scripts.packing_slip.validate_packing_slip"
+    # },
 	# "Packing Slip":{
     #     "before_insert": "autopro.custom_scripts.packing_slip_from_dn.populate_rate_amount"
     # }
+    "Delivery Note": {
+        "before_submit": "autopro.custom_scripts.check_packing_slip.check_packing_slip",
+        "on_submit": "autopro.custom_scripts.update_dn_status.on_submit"
+    },       
+
+    "Sales Order": {
+        "before_workflow_action": "autopro.custom_scripts.submit_delivery_note_workflow.restrict_next_state_if_dn_not_submitted"
+    },
+    "Sales Order":{
+        "before_workflow_action": "autopro.custom_scripts.halt_sales_order.check_courier_details"
+    }
 }
 
 # Scheduled Tasks
