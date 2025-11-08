@@ -111,6 +111,9 @@ doctype_js = {
         'public/js/get_gate_and_office_pass.js',
         'public/js/create_delivery_note.js'
     ],
+    "Customer":[
+        'public/js/customer_whatsapp.js'
+    ]
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -257,11 +260,11 @@ doc_events = {
 
 # Overriding Methods
 # ------------------------------
-#
-# override_whitelisted_methods = {
-# 	"erpnext.stock.doctype.packing_slip.packing_slip.make_packing_slip_from_delivery_note":"autopro.custom_scripts.packing_list.make_packing_slip_from_delivery_note"
-# }
-#
+######## Create webhook for frappe wahtsapp integration live chat and so on
+override_whitelisted_methods = {
+    "autopro.custom_scripts.api.webhook_test.receive_webhook": "autopro.custom_scripts.api.webhook_test.receive_webhook"
+}
+
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
