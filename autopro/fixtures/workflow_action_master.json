@@ -1,0 +1,149 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-06-11 17:26:55.453380",
+  "name": "Reject",
+  "workflow_action_name": "Reject"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-09-06 11:55:57.795967",
+  "name": "Draft",
+  "workflow_action_name": "Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-09-06 11:57:16.305979",
+  "name": "Revert to Draft",
+  "workflow_action_name": "Revert to Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-09-16 10:33:45.635558",
+  "name": "Revert To Pending",
+  "workflow_action_name": "Revert To Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-06-24 16:59:22.410836",
+  "name": "Complete",
+  "workflow_action_name": "Complete"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-06-24 17:22:55.882146",
+  "name": "Send for Approval",
+  "workflow_action_name": "Send for Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-06-24 17:50:37.585318",
+  "name": "Save",
+  "workflow_action_name": "Save"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-07-12 10:29:27.621753",
+  "name": "Create Invoice",
+  "workflow_action_name": "Create Invoice"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-21 14:26:13.095881",
+  "name": "Create Packing Slip",
+  "workflow_action_name": "Create Packing Slip"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-06-11 17:26:55.456484",
+  "name": "Review",
+  "workflow_action_name": "Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-07-05 09:42:49.129582",
+  "name": "Pack",
+  "workflow_action_name": "Pack"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-07-12 10:28:12.259843",
+  "name": "Create Delivery Note",
+  "workflow_action_name": "Create Delivery Note"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-27 11:03:20.803230",
+  "name": "Start Transit",
+  "workflow_action_name": "Start Transit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-06-24 17:40:25.873811",
+  "name": "Bill",
+  "workflow_action_name": "Bill"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-08-22 17:54:30.737119",
+  "name": "Put On Hold",
+  "workflow_action_name": "Put On Hold"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-07-12 10:27:07.405425",
+  "name": "Create Pick List",
+  "workflow_action_name": "Create Pick List"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-07-12 10:42:38.286895",
+  "name": "Cancel",
+  "workflow_action_name": "Cancel"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-06-24 16:54:31.493456",
+  "name": "Submit",
+  "workflow_action_name": "Submit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-07-05 13:50:24.153383",
+  "name": "Mark As Delivered",
+  "workflow_action_name": "Mark As Delivered"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-06-11 17:26:55.451397",
+  "name": "Approve",
+  "workflow_action_name": "Approve"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-07-05 09:43:57.720116",
+  "name": "Dispatch",
+  "workflow_action_name": "Dispatch"
+ }
+]

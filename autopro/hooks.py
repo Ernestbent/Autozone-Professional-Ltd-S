@@ -332,7 +332,8 @@ override_whitelisted_methods = {
 fixtures = [
     "Workflow",
     "Workflow State",
-    "Workflow Action Master"
+    "Workflow Action Master",
+    "Role",
 ]
 
 
