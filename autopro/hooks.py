@@ -224,7 +224,7 @@ doc_events = {
     # }
     "Delivery Note": {
         "before_submit": "autopro.custom_scripts.check_packing_slip.check_packing_slip",
-        "on_submit": "autopro.custom_scripts.update_dn_status.on_submit"
+        # "on_submit": "autopro.custom_scripts.update_dn_status.on_submit"
     },       
 
     # "Sales Order": {
