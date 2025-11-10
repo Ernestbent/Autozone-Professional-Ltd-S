@@ -79,7 +79,7 @@ doctype_js = {
         "public/js/create_delivery_note.js",
         "public/js/create_pick_list.js",
         "public/js/create_packing_slip.js",
-        "public/js/hide_sales_order_buttons.js",
+        # "public/js/hide_sales_order_buttons.js",
 
     ],
     "Sales Invoice Item":[
@@ -97,7 +97,8 @@ doctype_js = {
         "public/js/journal_entry_ref_no.js"
     ],
     "Pick List":[
-       "public/js/create_pick_list.js",
+    #    "public/js/create_pick_list.js",
+    #    "public/js/hide_create_pl.js"
     #    "public/js/create_delivery_note_from_pick_list.js"
         
     ],
@@ -108,8 +109,8 @@ doctype_js = {
         'public/js/packing_slip.js'
     ],
     "Delivery Note":[
-        'public/js/get_gate_and_office_pass.js',
-        'public/js/create_delivery_note.js'
+        # 'public/js/get_gate_and_office_pass.js',
+        # 'public/js/create_delivery_note.js'
     ],
     "Customer":[
         'public/js/customer_whatsapp.js'
@@ -221,7 +222,7 @@ doc_events = {
     # }
     "Delivery Note": {
         "before_submit": "autopro.custom_scripts.check_packing_slip.check_packing_slip",
-        "on_submit": "autopro.custom_scripts.update_dn_status.on_submit"
+        # "on_submit": "autopro.custom_scripts.update_dn_status.on_submit"
     },       
 
     "Sales Order": {
