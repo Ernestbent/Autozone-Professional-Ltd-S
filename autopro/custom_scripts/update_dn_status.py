@@ -17,11 +17,11 @@
 #         if item.against_sales_order:
 #             so_names.add(item.against_sales_order)
 
-#         # 2. Via Pick List (DN from Pick List)
-#         elif doc.pick_list:
-#             pl_so = get_so_from_pick_list(doc.pick_list, item.item_code, item.warehouse)
-#             if pl_so:
-#                 so_names.add(pl_so)
+        # 2. Via Pick List (DN from Pick List)
+        elif doc.pick_list:
+            pl_so = get_so_from_pick_list(doc.pick_list, item.item_code, item.warehouse)
+            if pl_so:
+                so_names.add(pl_so)
 
 #     # Update each Sales Order safely
 #     for so_name in so_names:
