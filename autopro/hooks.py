@@ -106,7 +106,8 @@ doctype_js = {
         'public/js/general_leger_checkbox.js'
     ],
     "Packing Slip":[
-        'public/js/packing_slip.js'
+        'public/js/packing_slip.js',
+        'public/js/delivery_note_reminder.js'
     ],
     "Delivery Note":[
         # 'public/js/get_gate_and_office_pass.js',
@@ -225,12 +226,12 @@ doc_events = {
         # "on_submit": "autopro.custom_scripts.update_dn_status.on_submit"
     },       
 
-    "Sales Order": {
-        "before_workflow_action": "autopro.custom_scripts.submit_delivery_note_workflow.restrict_next_state_if_dn_not_submitted"
-    },
-    "Sales Order":{
-        "before_workflow_action": "autopro.custom_scripts.halt_sales_order.check_courier_details"
-    }
+    # "Sales Order": {
+    #     "before_workflow_action": "autopro.custom_scripts.submit_delivery_note_workflow.restrict_next_state_if_dn_not_submitted"
+    # },
+    # "Sales Order":{
+    #     "before_workflow_action": "autopro.custom_scripts.halt_sales_order.check_courier_details"
+    # }
 }
 
 # Scheduled Tasks
