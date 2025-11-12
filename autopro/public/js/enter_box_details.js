@@ -19,10 +19,6 @@ frappe.ui.form.on('Packing List', {
     table_hqkk_add: function(frm) { set_item_filter(frm); },
     table_hqkk_remove: function(frm) { update_remaining_qty(frm); }
 });
-
-/* -------------------------------------------------------------
-   FILTER PACKING TABLE TO ONLY SHOW INVOICE ITEMS
-   ------------------------------------------------------------- */
 function set_item_filter(frm) {
     const items = (frm.doc.table_ttya || []).map(r => r.item).filter(Boolean);
     frm.fields_dict.table_hqkk.grid.get_field('item').get_query = function () {
@@ -30,9 +26,6 @@ function set_item_filter(frm) {
     };
 }
 
-/* -------------------------------------------------------------
-   LOAD INVOICE ITEMS
-   ------------------------------------------------------------- */
 function load_invoice_items(frm) {
     if (!frm.doc.sales_invoice) return;
 
@@ -53,7 +46,7 @@ function load_invoice_items(frm) {
                 row.item_name = itm.item_name;
                 row.qty = itm.qty;
                 row.uom = itm.uom;
-                row.remaining_qty = itm.qty;   // initial remaining = full qty
+                row.remaining_qty = itm.qty;   
             });
 
             frm.refresh_field('table_ttya');
@@ -63,9 +56,6 @@ function load_invoice_items(frm) {
     });
 }
 
-/* -------------------------------------------------------------
-   UPDATE REMAINING QTY – **source of truth**
-   ------------------------------------------------------------- */
 function update_remaining_qty(frm) {
     if (!frm.doc.table_ttya) return;
 
@@ -84,9 +74,6 @@ function update_remaining_qty(frm) {
     frm.refresh_field('table_ttya');
 }
 
-/* -------------------------------------------------------------
-   SHOW “Fill Box Items” BUTTON
-   ------------------------------------------------------------- */
 function show_fill_button(frm) {
     frm.remove_custom_button(__('Fill Box Items'));
     if (frm.doc.sales_invoice && frm.doc.docstatus === 0 && frm.doc.table_ttya?.length) {
@@ -94,9 +81,6 @@ function show_fill_button(frm) {
     }
 }
 
-/* -------------------------------------------------------------
-   DIALOG – PACK ITEMS INTO A BOX
-   ------------------------------------------------------------- */
 function open_box_dialog(frm) {
     const d = new frappe.ui.Dialog({
         title: __('Pack Items into Box'),
@@ -158,27 +142,21 @@ function open_box_dialog(frm) {
     d.show();
 }
 
-/* -------------------------------------------------------------
-   NEXT BOX NUMBER
-   ------------------------------------------------------------- */
 function get_next_box_number(frm) {
     const used = (frm.doc.table_hqkk || []).map(r => r.box_number).filter(Boolean);
     return used.length ? Math.max(...used) + 1 : 1;
 }
 
-/* -------------------------------------------------------------
-   REBUILD DIALOG – ONLY SHOW ITEMS WITH remaining_qty > 0
-   ------------------------------------------------------------- */
 function rebuild_dialog_items(frm, dialog) {
     // Build **fresh** rows – ignore anything that was in the dialog before
     const fresh = (frm.doc.table_ttya || [])
-        .filter(row => row.remaining_qty > 0)          // <-- HIDE ZERO
+        .filter(row => row.remaining_qty > 0)          
         .map(row => ({
-            select: 0,                                 // always start unchecked
+            select: 0,                                 
             item: row.item,
             item_name: row.item_name,
             remaining_qty: row.remaining_qty,
-            quantity: 0                                 // always start with 0
+            quantity: 0                                
         }));
 
     const tbl = dialog.fields_dict.items;
@@ -189,9 +167,6 @@ function rebuild_dialog_items(frm, dialog) {
     setTimeout(() => tbl.grid.refresh(), 0);
 }
 
-/* -------------------------------------------------------------
-   SAVE BOX – add items, update weight, recalc remaining_qty
-   ------------------------------------------------------------- */
 function save_box(frm, vals, dialog) {
     const box = vals.box_number;
     const weight = vals.box_weight || 0;
@@ -202,7 +177,6 @@ function save_box(frm, vals, dialog) {
         return false;
     }
 
-    // ---------- VALIDATE ----------
     for (let itm of selected) {
         const invRow = frm.doc.table_ttya.find(r => r.item === itm.item);
         if (!invRow || itm.quantity > invRow.remaining_qty) {
@@ -215,7 +189,6 @@ function save_box(frm, vals, dialog) {
         }
     }
 
-    // ---------- ADD TO PACKING TABLE ----------
     selected.forEach(itm => {
         const row = frm.add_child('table_hqkk');
         row.box_number = box;
@@ -227,7 +200,6 @@ function save_box(frm, vals, dialog) {
         if (invRow) row.uom = invRow.uom;
     });
 
-    // ---------- UPDATE BOX SUMMARY (no duplicates) ----------
     const existing = (frm.doc.custom_box_summary || []).find(b => b.box_number == box);
     if (existing) {
         existing.weight_kg = weight;
@@ -237,11 +209,9 @@ function save_box(frm, vals, dialog) {
         b.weight_kg = weight;
     }
 
-    // ---------- REFRESH FORM ----------
     frm.refresh_field('table_hqkk');
     frm.refresh_field('custom_box_summary');
 
-    // **THIS IS THE ONLY PLACE remaining_qty IS CALCULATED**
     update_remaining_qty(frm);
 
     return true;

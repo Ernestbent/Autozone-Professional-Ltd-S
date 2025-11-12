@@ -215,9 +215,9 @@ doctype_js = {
 # Document Events
 # ---------------
 # Hook on document methods and events
-workflow_methods = {
-    "create_pick_list_from_sales_order": "autopro.autopro.doctype.sales_order_custom.sales_order_custom.create_pick_list_on_workflow"
-}
+# workflow_methods = {
+#     "create_pick_list_from_sales_order": "autopro.autopro.doctype.sales_order_custom.sales_order_custom.create_pick_list_on_workflow"
+# }
 
 
 doc_events = {
