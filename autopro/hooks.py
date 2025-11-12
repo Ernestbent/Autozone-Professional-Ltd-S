@@ -116,6 +116,11 @@ doctype_js = {
     ],
     "Customer":[
         'public/js/customer_whatsapp.js'
+    ],
+    "Packing List":[
+        "public/js/packing_list_logic.js",
+        "public/js/packing_list_box-entry.js",
+        "public/js/enter_box_details.js"
     ]
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}

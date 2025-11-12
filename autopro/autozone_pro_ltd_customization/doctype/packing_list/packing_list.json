@@ -1,0 +1,121 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-11-12 09:47:36.935762",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sales_invoice",
+  "items_section",
+  "table_ttya",
+  "section_break_eocg",
+  "total_quantity",
+  "column_break_xtgi",
+  "total_ugx",
+  "packaging_details_section",
+  "table_hqkk",
+  "totals_section",
+  "total_qty",
+  "column_break_drgx",
+  "total_boxes"
+ ],
+ "fields": [
+  {
+   "description": "Fetch Items for the package(s) form the Sales Invoice.",
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Sales Invoice",
+   "options": "Sales Invoice",
+   "reqd": 1
+  },
+  {
+   "fieldname": "items_section",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "table_ttya",
+   "fieldtype": "Table",
+   "options": "Sales Invoice Item"
+  },
+  {
+   "fieldname": "section_break_eocg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_quantity",
+   "fieldtype": "Int",
+   "label": "Total Quantity"
+  },
+  {
+   "fieldname": "column_break_xtgi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_ugx",
+   "fieldtype": "Currency",
+   "label": "Total (UGX)"
+  },
+  {
+   "fieldname": "packaging_details_section",
+   "fieldtype": "Section Break",
+   "label": "Packaging Details"
+  },
+  {
+   "fieldname": "table_hqkk",
+   "fieldtype": "Table",
+   "options": "Packaging Details",
+   "search_index": 1
+  },
+  {
+   "fieldname": "totals_section",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "description": "The total number of boxes in this packing slip",
+   "fieldname": "total_qty",
+   "fieldtype": "Int",
+   "label": "Total Qty"
+  },
+  {
+   "fieldname": "column_break_drgx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "The total quantity of all items across all boxes in this packing slip.",
+   "fieldname": "total_boxes",
+   "fieldtype": "Int",
+   "label": "Total Boxes"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-11-12 10:16:12.487295",
+ "modified_by": "Administrator",
+ "module": "Autozone Pro Ltd Customization",
+ "name": "Packing List",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
