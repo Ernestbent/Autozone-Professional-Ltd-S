@@ -1,17 +1,14 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2025-11-12 09:47:36.935762",
+ "autoname": "format:{delivery_note}-{PL}-{####}",
+ "creation": "2025-11-14 14:39:16.295145",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "sales_invoice",
+  "delivery_note",
   "items_section",
   "table_ttya",
-  "section_break_eocg",
-  "total_quantity",
-  "column_break_xtgi",
-  "total_ugx",
   "packaging_details_section",
   "table_hqkk",
   "totals_section",
@@ -21,16 +18,6 @@
  ],
  "fields": [
   {
-   "description": "Fetch Items for the package(s) form the Sales Invoice.",
-   "fieldname": "sales_invoice",
-   "fieldtype": "Link",
-   "in_global_search": 1,
-   "in_list_view": 1,
-   "label": "Sales Invoice",
-   "options": "Sales Invoice",
-   "reqd": 1
-  },
-  {
    "fieldname": "items_section",
    "fieldtype": "Section Break",
    "label": "Items"
@@ -38,25 +25,7 @@
   {
    "fieldname": "table_ttya",
    "fieldtype": "Table",
-   "options": "Sales Invoice Item"
-  },
-  {
-   "fieldname": "section_break_eocg",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "total_quantity",
-   "fieldtype": "Int",
-   "label": "Total Quantity"
-  },
-  {
-   "fieldname": "column_break_xtgi",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "total_ugx",
-   "fieldtype": "Currency",
-   "label": "Total (UGX)"
+   "options": "Items"
   },
   {
    "fieldname": "packaging_details_section",
@@ -75,7 +44,6 @@
    "label": "Totals"
   },
   {
-   "description": "The total number of boxes in this packing slip",
    "fieldname": "total_qty",
    "fieldtype": "Int",
    "label": "Total Qty"
@@ -85,19 +53,30 @@
    "fieldtype": "Column Break"
   },
   {
-   "description": "The total quantity of all items across all boxes in this packing slip.",
+   "description": "The total number of boxes in this packing slip",
    "fieldname": "total_boxes",
    "fieldtype": "Int",
    "label": "Total Boxes"
+  },
+  {
+   "description": "Fetch Items for the package(s) form the Delivery Note",
+   "fieldname": "delivery_note",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Delivery Note",
+   "options": "Delivery Note",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-11-12 10:16:12.487295",
+ "modified": "2025-11-14 15:33:37.415094",
  "modified_by": "Administrator",
  "module": "Autozone Pro Ltd Customization",
  "name": "Packing List",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
