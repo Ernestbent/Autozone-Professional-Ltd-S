@@ -78,7 +78,10 @@ doctype_js = {
         "public/js/track_courier_details.js",
         "public/js/create_delivery_note.js",
         "public/js/create_pick_list.js",
-        "public/js/create_packing_slip.js",
+        # "public/js/create_packing_slip.js",
+        # "public/js/create_packing_list.js",
+        "public/js/hide_sales_order_butttons.js",
+        # "public/js/create_packing_list_button.js"
         # "public/js/hide_sales_order_buttons.js",
 
     ],
@@ -96,31 +99,32 @@ doctype_js = {
     "Journal Entry":[
         "public/js/journal_entry_ref_no.js"
     ],
-    "Pick List":[
-       "public/js/create_pick_list.js",
-       "public/js/hide_create_pl.js",
-       "public/js/hide_create_dn_frm_pick_list.js"
-    #    "public/js/create_delivery_note_from_pick_list.js"
+    # "Pick List":[
+    #    "public/js/create_pick_list.js",
+    #    "public/js/hide_create_pl.js",
+    #    "public/js/hide_create_dn_frm_pick_list.js"
+    # #    "public/js/create_delivery_note_from_pick_list.js"
         
-    ],
+    # ],
     "GL Entry":[
         'public/js/general_leger_checkbox.js'
     ],
-    "Packing Slip":[
-        'public/js/packing_slip.js',
-        'public/js/delivery_note_reminder.js'
-    ],
-    "Delivery Note":[
-        # 'public/js/get_gate_and_office_pass.js',
-        'public/js/create_delivery_note.js'
-    ],
+    # "Packing Slip":[
+    #     'public/js/packing_slip.js',
+    #     'public/js/delivery_note_reminder.js'
+    # ],
+    # "Delivery Note":[
+    #     # 'public/js/get_gate_and_office_pass.js',
+    #     'public/js/create_delivery_note.js'
+    # ],
     "Customer":[
         'public/js/customer_whatsapp.js'
     ],
     "Packing List":[
         "public/js/packing_list_logic.js",
         "public/js/packing_list_box-entry.js",
-        "public/js/enter_box_details.js"
+        "public/js/enter_box_details.js",
+        
     ]
     }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
@@ -227,10 +231,10 @@ doc_events = {
 	# "Packing Slip":{
     #     "before_insert": "autopro.custom_scripts.packing_slip_from_dn.populate_rate_amount"
     # }
-    "Delivery Note": {
-        "before_submit": "autopro.custom_scripts.check_packing_slip.check_packing_slip",
-        # "on_submit": "autopro.custom_scripts.update_dn_status.on_submit"
-    },       
+    # "Delivery Note": {
+    #     "before_submit": "autopro.custom_scripts.check_packing_slip.check_packing_slip",
+    #     # "on_submit": "autopro.custom_scripts.update_dn_status.on_submit"
+    # },       
 
     # "Sales Order": {
     #     "before_workflow_action": "autopro.custom_scripts.submit_delivery_note_workflow.restrict_next_state_if_dn_not_submitted"

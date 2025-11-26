@@ -3,10 +3,12 @@
  "allow_rename": 1,
  "creation": "2025-11-12 14:25:14.988506",
  "doctype": "DocType",
+ "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "box_number",
-  "weight_kg"
+  "weight_kg",
+  "expense"
  ],
  "fields": [
   {
@@ -18,13 +20,19 @@
    "fieldname": "weight_kg",
    "fieldtype": "Float",
    "label": "Weight (Kg)"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "expense",
+   "fieldtype": "Currency",
+   "label": "Expense"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-11-12 14:39:55.262742",
+ "modified": "2025-11-20 12:34:23.984013",
  "modified_by": "Administrator",
  "module": "Autozone Pro Ltd Customization",
  "name": "Box Summary Table",

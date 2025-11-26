@@ -1,0 +1,56 @@
+{
+ "add_total_row": 0,
+ "add_translate_data": 0,
+ "columns": [],
+ "creation": "2025-11-24 09:38:53.373411",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "javascript": "",
+ "letter_head": "Autzone Suppliers of Genuine Auto Parts",
+ "letterhead": null,
+ "modified": "2025-11-24 10:24:38.397803",
+ "modified_by": "Administrator",
+ "module": "Autozone Pro Ltd Customization",
+ "name": "Stock Levels",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "",
+ "ref_doctype": "Item",
+ "report_name": "Stock Levels",
+ "report_script": "\ndef execute(filters=None):\n    if not filters:\n        filters = {}\n    \n    columns = get_columns()\n    data = get_data(filters)\n    \n    return columns, data\n\ndef get_columns():\n    return [\n        {\n            \"fieldname\": \"item_code\",\n            \"label\": \"Item Code\",\n            \"fieldtype\": \"Link\",\n            \"options\": \"Item\",\n            \"width\": 140\n        },\n        {\n            \"fieldname\": \"item_name\",\n            \"label\": \"Item Name\",\n            \"fieldtype\": \"Data\",\n            \"width\": 250\n        },\n        {\n            \"fieldname\": \"item_group\",\n            \"label\": \"Item Group\",\n            \"fieldtype\": \"Link\",\n            \"options\": \"Item Group\",\n            \"width\": 140\n        },\n        {\n            \"fieldname\": \"stock_qty\",\n            \"label\": \"Stock Qty\",\n            \"fieldtype\": \"Float\",\n            \"width\": 110\n        },\n        {\n            \"fieldname\": \"stock_value\",\n            \"label\": \"Stock Value\",\n            \"fieldtype\": \"Currency\",\n            \"width\": 140\n        },\n        {\n            \"fieldname\": \"valuation_rate\",\n            \"label\": \"Valuation Rate\",\n            \"fieldtype\": \"Currency\",\n            \"width\": 120\n        },\n        {\n            \"fieldname\": \"slow_moving\",\n            \"label\": \"Slow Moving\",\n            \"fieldtype\": \"Check\",\n            \"width\": 100\n        },\n        {\n            \"fieldname\": \"disabled\",\n            \"label\": \"Disabled\",\n            \"fieldtype\": \"Check\",\n            \"width\": 80\n        }\n    ]\n\ndef get_data(filters):\n    conditions = [\"i.disabled = 0\"]\n    conditions.append(\"(COALESCE(b.actual_qty, 0) > 0 OR COALESCE(i.custom_slow_moving, 0) = 1)\")\n    \n    # Build filter conditions dynamically\n    if filters.get(\"item_code\"):\n        conditions.append(\"i.item_code = %(item_code)s\")\n    \n    if filters.get(\"item_name\"):\n        conditions.append(\"i.item_name = %(item_name)s\")\n    \n    where_clause = \" AND \".join(conditions)\n    \n    query = \"\"\"\n        SELECT\n            i.item_code,\n            i.item_name,\n            i.item_group,\n            COALESCE(SUM(b.actual_qty), 0) as stock_qty,\n            COALESCE(SUM(b.stock_value), 0) as stock_value,\n            COALESCE(b.valuation_rate, 0) as valuation_rate,\n            COALESCE(i.custom_slow_moving, 0) as slow_moving,\n            i.disabled\n        FROM `tabItem` i\n        LEFT JOIN `tabBin` b ON b.item_code = i.item_code\n        WHERE {where_clause}\n        GROUP BY i.item_code\n        ORDER BY i.item_code\n    \"\"\".format(where_clause=where_clause)\n    \n    data = frappe.db.sql(query, filters, as_dict=1)\n    \n    return data",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "Item Manager"
+  },
+  {
+   "role": "Stock Manager"
+  },
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Sales User"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "Maintenance User"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Manufacturing User"
+  },
+  {
+   "role": "Desk User"
+  }
+ ],
+ "timeout": 0
+}

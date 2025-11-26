@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{delivery_note}-{PL}-{####}",
+ "autoname": "format:{PL}-{####}",
  "creation": "2025-11-14 14:39:16.295145",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,7 +14,8 @@
   "totals_section",
   "total_qty",
   "column_break_drgx",
-  "total_boxes"
+  "total_boxes",
+  "amended_from"
  ],
  "fields": [
   {
@@ -67,12 +68,22 @@
    "label": "Delivery Note",
    "options": "Delivery Note",
    "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Packing List",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-11-14 15:33:37.415094",
+ "modified": "2025-11-20 11:08:24.111309",
  "modified_by": "Administrator",
  "module": "Autozone Pro Ltd Customization",
  "name": "Packing List",
